@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pinjollist/bloc/companies_bloc.dart';
-import 'package:pinjollist/detail_screen.dart';
+import 'package:pinjollist/ui/detail_screen.dart';
 import 'package:pinjollist/model/companies.dart';
 
 class CompaniesWidget extends StatefulWidget {
@@ -40,10 +40,7 @@ class _CompaniesWidgetState extends State<CompaniesWidget> {
 
   Widget _buildLoadingWidget() {
     return Center(
-        child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [Text("Loading data from API..."), CircularProgressIndicator()],
-    ));
+        child: CircularProgressIndicator());
   }
 
   Widget _buildErrorWidget(String error) {

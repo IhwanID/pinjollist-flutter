@@ -93,7 +93,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                 throw 'Could not launch ${widget.company.website}';
                               }
                             },
-                            child: Text(widget.company.website),
+                            child: Text('Visit Website'),
                           ),
                         ],
                       ),

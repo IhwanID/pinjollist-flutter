@@ -1,6 +1,4 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:pinjollist/model/companies.dart';
 import 'package:pinjollist/widget/companies_widget.dart';
 
 void main() => runApp(MyApp());
