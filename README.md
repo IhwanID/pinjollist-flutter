@@ -2,15 +2,20 @@
 
 Pinjollist Flutter application.
 
-## Getting Started
+## Documentation
 
-This project is a starting point for a Flutter application.
+* [Install Flutter](https://flutter.dev/get-started/)
+* [Flutter documentation](https://flutter.dev/docs)
+* [Development wiki](https://github.com/flutter/flutter/wiki)
+* [Contributing to Flutter](https://github.com/flutter/flutter/blob/master/CONTRIBUTING.md)
 
-A few resources to get you started if this is your first Flutter project:
+## Library Used
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+* [dio](https://pub.dev/packages/dio)
+* [json_annotation](https://pub.dev/packages/json_annotation)
+* [url_launcher](https://pub.dev/packages/url_launcher)
+* [rxdart](https://pub.dev/packages/rxdart)
+* [flutter_lottie](https://pub.dev/packages/flutter_lottie)
+* [build_runner](https://pub.dev/packages/build_runner)
+* [json_serializable](https://pub.dev/packages/json_serializable)
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
