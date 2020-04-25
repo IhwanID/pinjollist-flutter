@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pinjollist/bloc/bloc.dart';
 import 'package:pinjollist/widget/companies_widget.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  runApp(BlocProvider<CompaniesBloc>(
+    create: (context) => CompaniesBloc(),
+    child: MyApp(),
+  ));
+}
 
 class MyApp extends StatelessWidget {
   @override
@@ -22,22 +29,18 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   @override
-  void initState(){
+  void initState() {
     super.initState();
-
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Pinjollist by Commonlabs ID"),),
-      body: Container(
-        child:  CompaniesWidget()
+      appBar: AppBar(
+        title: Text("Pinjollist by Commonlabs ID"),
       ),
+      body: Container(child: CompaniesWidget()),
     );
   }
-
 }
-

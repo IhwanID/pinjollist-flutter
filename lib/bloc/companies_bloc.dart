@@ -1,22 +1,27 @@
-import 'package:pinjollist/bloc/companies_repository.dart';
+import 'dart:async';
+import 'package:bloc/bloc.dart';
 import 'package:pinjollist/model/companies.dart';
-import 'package:rxdart/rxdart.dart';
+import 'package:pinjollist/repository/companies_repository.dart';
+import './bloc.dart';
 
-class CompaniesBloc{
-  final CompaniesRepository _repository = CompaniesRepository();
-  final BehaviorSubject<CompaniesResponse> _subject =
-  BehaviorSubject<CompaniesResponse>();
+class CompaniesBloc extends Bloc<CompaniesEvent, CompaniesState> {
+  CompaniesRepository repository = CompaniesRepository();
 
-  getUser() async {
-    CompaniesResponse response = await _repository.getCompanies();
-    _subject.sink.add(response);
+  @override
+  CompaniesState get initialState => CompaniesInitial();
+
+  @override
+  Stream<CompaniesState> mapEventToState(
+    CompaniesEvent event,
+  ) async* {
+    if (event is FetchCompanies) {
+      yield CompaniesLoadInProgress();
+      try {
+        final CompaniesResponse response = await repository.getCompanies();
+        yield CompaniesLoadSuccess(companies: response);
+      } catch (_) {
+        yield CompaniesLoadFailure();
+      }
+    }
   }
-
-  dispose() {
-    _subject.close();
-  }
-
-  BehaviorSubject<CompaniesResponse> get subject => _subject;
 }
-
-final bloc = CompaniesBloc();

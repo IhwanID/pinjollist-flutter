@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pinjollist/bloc/bloc.dart';
 import 'package:pinjollist/bloc/companies_bloc.dart';
 import 'package:pinjollist/ui/detail_screen.dart';
 import 'package:pinjollist/model/companies.dart';
@@ -16,21 +18,21 @@ class _CompaniesWidgetState extends State<CompaniesWidget> {
   @override
   void initState() {
     super.initState();
-    bloc.getUser();
+    BlocProvider.of<CompaniesBloc>(context).add(FetchCompanies());
   }
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<CompaniesResponse>(
-      stream: bloc.subject.stream,
-      builder: (context, AsyncSnapshot<CompaniesResponse> snapshot) {
-        if (snapshot.hasData) {
-          if (snapshot.data.status == "error") {
-            throw Exception("API Error");
-          }
-          return _buildCompaniesWidget(snapshot.data);
-        } else if (snapshot.hasError) {
-          return _buildErrorWidget(snapshot.error);
+    return BlocBuilder<CompaniesBloc, CompaniesState>(
+      builder: (context, state) {
+        if (state is CompaniesInitial) {
+          return _buildLoadingWidget();
+        } else if (state is CompaniesLoadInProgress) {
+          return _buildLoadingWidget();
+        } else if (state is CompaniesLoadSuccess) {
+          return _buildCompaniesWidget(state.companies);
+        } else if (state is CompaniesLoadFailure) {
+          return _buildErrorWidget("error");
         } else {
           return _buildLoadingWidget();
         }
@@ -39,8 +41,7 @@ class _CompaniesWidgetState extends State<CompaniesWidget> {
   }
 
   Widget _buildLoadingWidget() {
-    return Center(
-        child: CircularProgressIndicator());
+    return Center(child: CircularProgressIndicator());
   }
 
   Widget _buildErrorWidget(String error) {
@@ -53,22 +54,25 @@ class _CompaniesWidgetState extends State<CompaniesWidget> {
     ));
   }
 
-  Widget _buildListCompanies(List<Companies> data){
+  Widget _buildListCompanies(List<Companies> data) {
     return Expanded(
         child: ListView.builder(
             itemCount: data.length,
             itemBuilder: (context, index) {
               return ListTile(
-                onTap: (){
+                onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => DetailScreen(data[index])),
+                    MaterialPageRoute(
+                        builder: (context) => DetailScreen(data[index])),
                   );
                 },
-                title: Text("${data[index].companyName} (${data[index].platformName})"),
+                title: Text(
+                    "${data[index].companyName} (${data[index].platformName})"),
               );
             }));
   }
+
   Widget _buildCompaniesWidget(CompaniesResponse data) {
     return Column(
       children: <Widget>[
@@ -90,13 +94,14 @@ class _CompaniesWidgetState extends State<CompaniesWidget> {
                     borderRadius: BorderRadius.all(Radius.circular(25.0)))),
           ),
         ),
-        isSearch ?  _buildListCompanies(searchResult) : _buildListCompanies(data.data)
+        isSearch
+            ? _buildListCompanies(searchResult)
+            : _buildListCompanies(data.data)
       ],
     );
   }
 
   void filterSearchResults(String query, List<Companies> listCompanies) async {
-
     searchResult = [];
 
     if (query.isEmpty || query == "") {
@@ -106,7 +111,8 @@ class _CompaniesWidgetState extends State<CompaniesWidget> {
     } else {
       setState(() {
         listCompanies.forEach((data) {
-          if (data.companyName.toLowerCase().contains(query.toLowerCase()) || data.platformName.toLowerCase().contains(query.toLowerCase())){
+          if (data.companyName.toLowerCase().contains(query.toLowerCase()) ||
+              data.platformName.toLowerCase().contains(query.toLowerCase())) {
             searchResult.add(data);
           }
         });
