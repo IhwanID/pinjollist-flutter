@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:pinjollist/model/company.dart';
-import 'package:pinjollist/repository/company_repository.dart';
+import 'package:pinjollist/repository/repositories.dart';
 import './bloc.dart';
 
 class CompanyBloc extends Bloc<CompanyEvent, CompanyState> {
