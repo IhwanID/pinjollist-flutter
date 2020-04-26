@@ -202,13 +202,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.2.0"
-  flutter_lottie:
-    dependency: "direct main"
-    description:
-      name: flutter_lottie
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.2.0"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -283,7 +276,7 @@ packages:
     source: hosted
     version: "0.6.1+1"
   json_annotation:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: json_annotation
       url: "https://pub.dartlang.org"

@@ -1,23 +1,22 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'companies.g.dart';
+part 'company.g.dart';
 
 @JsonSerializable()
 class CompaniesResponse {
   CompaniesResponse(this.status, this.data);
 
   final String status;
-  final List<Companies> data;
+  final List<Company> data;
 
   factory CompaniesResponse.fromJson(Map<String, dynamic> json) =>
       _$CompaniesResponseFromJson(json);
   Map<String, dynamic> toJson() => _$CompaniesResponseToJson(this);
-  
 }
 
 @JsonSerializable()
-class Companies {
-  Companies(
+class Company {
+  Company(
       {this.registration,
       this.companyName,
       this.website,
@@ -40,7 +39,7 @@ class Companies {
   final bool isSyariah;
   final String alamat;
 
-  factory Companies.fromJson(Map<String, dynamic> json) =>
-      _$CompaniesFromJson(json);
-  Map<String, dynamic> toJson() => _$CompaniesToJson(this);
+  factory Company.fromJson(Map<String, dynamic> json) =>
+      _$CompanyFromJson(json);
+  Map<String, dynamic> toJson() => _$CompanyToJson(this);
 }

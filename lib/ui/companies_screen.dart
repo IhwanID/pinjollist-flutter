@@ -1,79 +1,83 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pinjollist/bloc/bloc.dart';
-import 'package:pinjollist/bloc/companies_bloc.dart';
-import 'package:pinjollist/ui/detail_screen.dart';
-import 'package:pinjollist/model/companies.dart';
+import 'package:pinjollist/commons/company_modal.dart';
+import 'package:pinjollist/commons/loading.dart';
+import 'package:pinjollist/model/company.dart';
 
-class CompaniesWidget extends StatefulWidget {
+class CompaniesScreen extends StatefulWidget {
   @override
-  _CompaniesWidgetState createState() => _CompaniesWidgetState();
+  _CompaniesScreenState createState() => _CompaniesScreenState();
 }
 
-class _CompaniesWidgetState extends State<CompaniesWidget> {
+class _CompaniesScreenState extends State<CompaniesScreen> {
   TextEditingController editingController = TextEditingController();
-  List<Companies> searchResult = [];
+  List<Company> searchResult = [];
   bool isSearch = false;
 
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<CompaniesBloc>(context).add(FetchCompanies());
+    BlocProvider.of<CompanyBloc>(context).add(FetchCompanies());
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CompaniesBloc, CompaniesState>(
-      builder: (context, state) {
-        if (state is CompaniesInitial) {
-          return _buildLoadingWidget();
-        } else if (state is CompaniesLoadInProgress) {
-          return _buildLoadingWidget();
-        } else if (state is CompaniesLoadSuccess) {
-          return _buildCompaniesWidget(state.companies);
-        } else if (state is CompaniesLoadFailure) {
-          return _buildErrorWidget("error");
-        } else {
-          return _buildLoadingWidget();
-        }
-      },
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        title: Text("Pinjollist by Commonlabs ID"),
+      ),
+      body: BlocBuilder<CompanyBloc, CompanyState>(
+        builder: (context, state) {
+          if (state is CompanyInitial) {
+            return Loading(msg: "Please Wait . . .");
+          } else if (state is CompanyLoadInProgress) {
+            return Loading(msg: "Fetching Data . . .");
+          } else if (state is CompanyLoadSuccess) {
+            return _buildCompaniesWidget(state.companies.data);
+          } else if (state is CompanyLoadFailure) {
+            return _buildErrorWidget();
+          } else {
+            return Loading(msg: "Loading");
+          }
+        },
+      ),
     );
   }
 
-  Widget _buildLoadingWidget() {
-    return Center(child: CircularProgressIndicator());
-  }
-
-  Widget _buildErrorWidget(String error) {
+  Widget _buildErrorWidget() {
     return Center(
         child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text("Error occured: $error"),
+        Text("Error occured!"),
       ],
     ));
   }
 
-  Widget _buildListCompanies(List<Companies> data) {
+  Widget _buildListCompanies(List<Company> data) {
     return Expanded(
         child: ListView.builder(
             itemCount: data.length,
             itemBuilder: (context, index) {
+              Company company = data[index];
               return ListTile(
+                title: Text("${company.companyName} (${company.platformName})"),
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => DetailScreen(data[index])),
-                  );
+                  showModalBottomSheet(
+                      context: (context),
+                      builder: (context) {
+                        return CompanyModal(
+                          company: data[index],
+                        );
+                      });
                 },
-                title: Text(
-                    "${data[index].companyName} (${data[index].platformName})"),
               );
             }));
   }
 
-  Widget _buildCompaniesWidget(CompaniesResponse data) {
+  Widget _buildCompaniesWidget(List<Company> companies) {
     return Column(
       children: <Widget>[
         Padding(
@@ -83,7 +87,7 @@ class _CompaniesWidgetState extends State<CompaniesWidget> {
               setState(() {
                 isSearch = true;
               });
-              filterSearchResults(value, data.data);
+              filterSearchResults(value, companies);
             },
             controller: editingController,
             decoration: InputDecoration(
@@ -96,12 +100,12 @@ class _CompaniesWidgetState extends State<CompaniesWidget> {
         ),
         isSearch
             ? _buildListCompanies(searchResult)
-            : _buildListCompanies(data.data)
+            : _buildListCompanies(companies)
       ],
     );
   }
 
-  void filterSearchResults(String query, List<Companies> listCompanies) async {
+  void filterSearchResults(String query, List<Company> listCompanies) async {
     searchResult = [];
 
     if (query.isEmpty || query == "") {

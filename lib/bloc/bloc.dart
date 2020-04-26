@@ -1,3 +1,3 @@
-export 'companies_bloc.dart';
-export 'companies_event.dart';
-export 'companies_state.dart';
+export 'company_bloc.dart';
+export 'company_event.dart';
+export 'company_state.dart';

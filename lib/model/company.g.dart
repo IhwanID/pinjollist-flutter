@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'companies.dart';
+part of 'company.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
@@ -11,7 +11,7 @@ CompaniesResponse _$CompaniesResponseFromJson(Map<String, dynamic> json) {
     json['status'] as String,
     (json['data'] as List)
         ?.map((e) =>
-            e == null ? null : Companies.fromJson(e as Map<String, dynamic>))
+            e == null ? null : Company.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
 }
@@ -22,8 +22,8 @@ Map<String, dynamic> _$CompaniesResponseToJson(CompaniesResponse instance) =>
       'data': instance.data,
     };
 
-Companies _$CompaniesFromJson(Map<String, dynamic> json) {
-  return Companies(
+Company _$CompanyFromJson(Map<String, dynamic> json) {
+  return Company(
     registration: json['registration'] as String,
     companyName: json['company_name'] as String,
     website: json['website'] as String,
@@ -35,7 +35,7 @@ Companies _$CompaniesFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$CompaniesToJson(Companies instance) => <String, dynamic>{
+Map<String, dynamic> _$CompanyToJson(Company instance) => <String, dynamic>{
       'registration': instance.registration,
       'company_name': instance.companyName,
       'website': instance.website,
