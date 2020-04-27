@@ -2,10 +2,10 @@
 
 Pinjollist Flutter application.
 
-#Demo
+# Demo
 ![Exchange Rates](assets/demo.gif)
 
-* [Implementasi BLoC dengan Dio dan Logging Interceptor]()
+* [Implementasi BLoC dengan Dio dan Logging Interceptor](https://medium.com/@IhwanID/implementasi-flutter-dengan-bloc-dio-logging-interceptor-bf63ba2a8114?sk=3af2ef0ed78ea9974643e4a3096b5578)
 * [Getting Started to BLoc](https://bloclibrary.dev/)
 
 ## Library Used
